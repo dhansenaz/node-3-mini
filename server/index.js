@@ -2,19 +2,21 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mc = require( `./controllers/messages_controller` );
 const session = require('session');
-
+const {createInitialSession} = require('./middlewares/session')
 const app = express();
 
 app.use( bodyParser.json() );
 app.use( express.static( `${__dirname}/../build` ) );
 app.use(session({
-    secret: ';jtnh;lksthp',
+    secret: 'jtnh;lksthp',
     resave: false,
     saveUninitialzed:true,
     cookie: {
         maxAge: 1000 * 10,
     }
-}))
+}));
+
+app.use(createIninitialSession)
 
 app.post( "/api/messages", mc.create );
 app.get( "/api/messages", mc.read );
